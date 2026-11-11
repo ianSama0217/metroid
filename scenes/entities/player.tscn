@@ -1,8 +1,65 @@
-[gd_scene load_steps=3 format=3 uid="uid://6w1w7rd4i2r8"]
+[gd_scene load_steps=9 format=3 uid="uid://6w1w7rd4i2r8"]
 
 [ext_resource type="Script" path="res://scenes/entities/player.gd" id="1_t3bbh"]
+[ext_resource type="Texture2D" uid="uid://de5wf7al0hknv" path="res://graphics/characters/player.png" id="2_ax37k"]
+[ext_resource type="Texture2D" uid="uid://otyoj5px7yk7" path="res://graphics/ui/crosshair.png" id="3_i8nqx"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fjpxy"]
+
+[sub_resource type="Animation" id="Animation_3skrk"]
+resource_name = "run"
+length = 1.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Legs:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [9, 10, 11, 12, 13, 14, 15]
+}
+
+[sub_resource type="Animation" id="Animation_ucxr5"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Legs:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [16]
+}
+
+[sub_resource type="Animation" id="Animation_l0rot"]
+resource_name = "jump"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Legs:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [17]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_p0ayi"]
+_data = {
+"idle": SubResource("Animation_ucxr5"),
+"jump": SubResource("Animation_l0rot"),
+"run": SubResource("Animation_3skrk")
+}
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_t3bbh")
@@ -16,3 +73,26 @@ zoom = Vector2(3, 3)
 [node name="ReloadTimer" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
+
+[node name="Legs" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+texture = ExtResource("2_ax37k")
+hframes = 8
+vframes = 3
+frame = 16
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_p0ayi")
+}
+autoplay = "idle"
+
+[node name="Toros" type="Sprite2D" parent="."]
+position = Vector2(0, -11)
+texture = ExtResource("2_ax37k")
+hframes = 8
+vframes = 3
+
+[node name="Marker" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_i8nqx")

@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dwjw0kk0fp4mn"]
+[gd_scene load_steps=6 format=3 uid="uid://dwjw0kk0fp4mn"]
 
 [ext_resource type="Script" path="res://scenes/levels/level.gd" id="1_butsy"]
 [ext_resource type="PackedScene" uid="uid://6w1w7rd4i2r8" path="res://scenes/entities/player.tscn" id="1_v53dh"]
+[ext_resource type="Texture2D" uid="uid://umouuttstq53" path="res://icon.svg" id="2_ivswj"]
 [ext_resource type="PackedScene" uid="uid://bktfk4r5sq7cl" path="res://scenes/entities/bullet.tscn" id="3_4bnyn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0srgl"]
@@ -15,6 +16,11 @@ script = ExtResource("1_butsy")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(370, 468)
 shape = SubResource("RectangleShape2D_0srgl")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(346, 916)
+scale = Vector2(6.01563, 9.25)
+texture = ExtResource("2_ivswj")
 
 [node name="Entities" type="Node2D" parent="."]
 
