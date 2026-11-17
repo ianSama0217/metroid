@@ -1,0 +1,144 @@
+[gd_scene load_steps=15 format=3 uid="uid://phw7t1ihb8wl"]
+
+[ext_resource type="Texture2D" uid="uid://vyr0ks75oxum" path="res://graphics/characters/drone.png" id="1_nr1in"]
+[ext_resource type="Script" path="res://scenes/entities/drone.gd" id="1_yflw0"]
+[ext_resource type="Texture2D" uid="uid://bav7n447bnsa5" path="res://graphics/fire/explosion.png" id="3_08ac7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ftt3f"]
+atlas = ExtResource("1_nr1in")
+region = Rect2(0, 0, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k5n2l"]
+atlas = ExtResource("1_nr1in")
+region = Rect2(32, 0, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_80i1w"]
+atlas = ExtResource("1_nr1in")
+region = Rect2(64, 0, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xpfem"]
+atlas = ExtResource("1_nr1in")
+region = Rect2(96, 0, 32, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fnpm6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ftt3f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k5n2l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_80i1w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xpfem")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_h6voo"]
+radius = 8.06226
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5vfc7"]
+radius = 138.293
+
+[sub_resource type="Animation" id="Animation_8gdas"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ExplosoionSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_2jb7l"]
+resource_name = "explode"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ExplosoionSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"chain_reaction"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_e2kg5"]
+_data = {
+"RESET": SubResource("Animation_8gdas"),
+"explode": SubResource("Animation_2jb7l")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_y7ape"]
+radius = 23.0217
+
+[node name="Drone" type="CharacterBody2D" groups=["Drones"]]
+collision_layer = 4
+collision_mask = 11
+script = ExtResource("1_yflw0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_fnpm6")
+autoplay = "default"
+frame = 3
+frame_progress = 0.194088
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_h6voo")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_5vfc7")
+metadata/_edit_lock_ = true
+
+[node name="ExplosoionSprite" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("3_08ac7")
+hframes = 8
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_e2kg5")
+}
+
+[node name="Collision2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision2D"]
+shape = SubResource("CircleShape2D_y7ape")
+
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
+[connection signal="body_entered" from="Collision2D" to="." method="_on_collision_2d_body_entered"]

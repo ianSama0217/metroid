@@ -7,12 +7,18 @@
 size = Vector2(5, 2.5)
 
 [node name="Bullet" type="Node2D"]
+light_mask = 8
+visibility_layer = 5
 script = ExtResource("1_b52pu")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_pbkll")
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_netni")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
