@@ -1,8 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://phw7t1ihb8wl"]
+[gd_scene load_steps=17 format=3 uid="uid://phw7t1ihb8wl"]
 
 [ext_resource type="Texture2D" uid="uid://vyr0ks75oxum" path="res://graphics/characters/drone.png" id="1_nr1in"]
 [ext_resource type="Script" path="res://scenes/entities/drone.gd" id="1_yflw0"]
 [ext_resource type="Texture2D" uid="uid://bav7n447bnsa5" path="res://graphics/fire/explosion.png" id="3_08ac7"]
+[ext_resource type="Texture2D" uid="uid://dijla4pisrrw8" path="res://graphics/lights/main.png" id="4_wsc4k"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ftt3f"]
 atlas = ExtResource("1_nr1in")
@@ -91,10 +92,26 @@ tracks/1/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_07g2u"]
+resource_name = "red_light"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PointLight2D:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1, 0.3, 0.5, 0.7, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.5, 1.0, 1.5, 1.0, 0.5]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_e2kg5"]
 _data = {
 "RESET": SubResource("Animation_8gdas"),
-"explode": SubResource("Animation_2jb7l")
+"explode": SubResource("Animation_2jb7l"),
+"red_light": SubResource("Animation_07g2u")
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_y7ape"]
@@ -112,9 +129,11 @@ frame = 3
 frame_progress = 0.194088
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("CircleShape2D_h6voo")
 
 [node name="DetectionArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 2
 
@@ -131,13 +150,21 @@ hframes = 8
 libraries = {
 "": SubResource("AnimationLibrary_e2kg5")
 }
+autoplay = "red_light"
 
 [node name="Collision2D" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Collision2D"]
 shape = SubResource("CircleShape2D_y7ape")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+color = Color(1, 0.00784314, 0, 1)
+energy = 0.5
+texture = ExtResource("4_wsc4k")
+texture_scale = 0.3
 
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]

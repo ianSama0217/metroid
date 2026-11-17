@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dwjw0kk0fp4mn"]
+[gd_scene load_steps=18 format=3 uid="uid://dwjw0kk0fp4mn"]
 
 [ext_resource type="Script" path="res://scenes/levels/level.gd" id="1_butsy"]
 [ext_resource type="PackedScene" uid="uid://6w1w7rd4i2r8" path="res://scenes/entities/player.tscn" id="1_v53dh"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bktfk4r5sq7cl" path="res://scenes/entities/bullet.tscn" id="3_4bnyn"]
 [ext_resource type="Texture2D" uid="uid://c7v0ifpdabs2i" path="res://graphics/tilesets/subway.png" id="4_bmhs2"]
 [ext_resource type="PackedScene" uid="uid://phw7t1ihb8wl" path="res://scenes/entities/drone.tscn" id="5_kgwyj"]
+[ext_resource type="Texture2D" uid="uid://6j2he24a4uda" path="res://graphics/lights/l3.png" id="7_k2uma"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jcj5m"]
 texture = ExtResource("3_1j6iv")
@@ -3188,6 +3189,12 @@ texture = ExtResource("4_bmhs2")
 [sub_resource type="TileSet" id="TileSet_vymfp"]
 sources/0 = SubResource("TileSetAtlasSource_d2cmb")
 
+[sub_resource type="Gradient" id="Gradient_d2fti"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_d63kd"]
+gradient = SubResource("Gradient_d2fti")
+fill_from = Vector2(0.495726, 0.353276)
+
 [node name="Level" type="Node2D"]
 script = ExtResource("1_butsy")
 metadata/_edit_horizontal_guides_ = [431.0, -121.0]
@@ -3227,5 +3234,45 @@ position = Vector2(-79, 544)
 [node name="Bullets" type="Node2D" parent="."]
 
 [node name="Bullet" parent="Bullets" instance=ExtResource("3_4bnyn")]
+
+[node name="Light" type="Node2D" parent="."]
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="Light"]
+color = Color(0.645067, 0.643822, 0.649405, 1)
+blend_mode = 2
+shadow_enabled = true
+
+[node name="PointLight2D" type="PointLight2D" parent="Light"]
+position = Vector2(1143.5, 631)
+scale = Vector2(1.76563, 1.25)
+texture = SubResource("GradientTexture2D_d63kd")
+
+[node name="PointLight2D2" type="PointLight2D" parent="Light"]
+position = Vector2(-177, 599)
+texture = ExtResource("7_k2uma")
+
+[node name="PointLight2D3" type="PointLight2D" parent="Light"]
+position = Vector2(-1, 601)
+texture = ExtResource("7_k2uma")
+
+[node name="PointLight2D4" type="PointLight2D" parent="Light"]
+position = Vector2(175, 600)
+texture = ExtResource("7_k2uma")
+
+[node name="PointLight2D5" type="PointLight2D" parent="Light"]
+position = Vector2(352, 599)
+texture = ExtResource("7_k2uma")
+
+[node name="PointLight2D6" type="PointLight2D" parent="Light"]
+position = Vector2(528, 600)
+texture = ExtResource("7_k2uma")
+
+[node name="PointLight2D7" type="PointLight2D" parent="Light"]
+position = Vector2(704, 600)
+texture = ExtResource("7_k2uma")
+
+[node name="PointLight2D8" type="PointLight2D" parent="Light"]
+position = Vector2(880, 599)
+texture = ExtResource("7_k2uma")
 
 [connection signal="shoot" from="Entities/Player" to="." method="_on_player_shoot"]
