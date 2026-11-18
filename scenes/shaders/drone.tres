@@ -1,0 +1,64 @@
+[gd_resource type="VisualShader" load_steps=5 format=3 uid="uid://crahw8yd0hv7l"]
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_hjrdu"]
+parameter_name = "Color"
+default_value_enabled = true
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_bc8p1"]
+input_name = "color"
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_704bd"]
+parameter_name = "Progress"
+hint = 1
+default_value_enabled = true
+default_value = 1.0
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_rm4jy"]
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, Vector3(0.5, 0.5, 0.5)]
+op_type = 3
+
+[resource]
+code = "shader_type canvas_item;
+render_mode blend_mix;
+
+uniform vec4 Color : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000000);
+uniform float Progress : hint_range(0, 1) = 1;
+
+
+
+void fragment() {
+// ColorParameter:2
+	vec4 n_out2p0 = Color;
+
+
+// Input:3
+	vec4 n_out3p0 = COLOR;
+
+
+// FloatParameter:4
+	float n_out4p0 = Progress;
+
+
+// Mix:5
+	vec3 n_out5p0 = mix(vec3(n_out2p0.xyz), vec3(n_out3p0.xyz), vec3(n_out4p0));
+
+
+// Output:0
+	COLOR.rgb = n_out5p0;
+
+
+}
+"
+graph_offset = Vector2(-388.833, 197.065)
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2(860, 280)
+nodes/fragment/2/node = SubResource("VisualShaderNodeColorParameter_hjrdu")
+nodes/fragment/2/position = Vector2(-180, 180)
+nodes/fragment/3/node = SubResource("VisualShaderNodeInput_bc8p1")
+nodes/fragment/3/position = Vector2(-260, 520)
+nodes/fragment/4/node = SubResource("VisualShaderNodeFloatParameter_704bd")
+nodes/fragment/4/position = Vector2(-140, 680)
+nodes/fragment/5/node = SubResource("VisualShaderNodeMix_rm4jy")
+nodes/fragment/5/position = Vector2(400, 420)
+nodes/fragment/connections = PackedInt32Array(5, 0, 0, 0, 2, 0, 5, 0, 3, 0, 5, 1, 4, 0, 5, 2)

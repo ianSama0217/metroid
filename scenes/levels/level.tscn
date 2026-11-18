@@ -3231,6 +3231,18 @@ position = Vector2(-315, 654)
 [node name="Drone" parent="Entities" instance=ExtResource("5_kgwyj")]
 position = Vector2(-79, 544)
 
+[node name="Drone2" parent="Entities" instance=ExtResource("5_kgwyj")]
+position = Vector2(273, 538)
+
+[node name="Drone3" parent="Entities" instance=ExtResource("5_kgwyj")]
+position = Vector2(527, 572)
+
+[node name="Drone4" parent="Entities" instance=ExtResource("5_kgwyj")]
+position = Vector2(705, 571)
+
+[node name="Drone5" parent="Entities" instance=ExtResource("5_kgwyj")]
+position = Vector2(879, 575)
+
 [node name="Bullets" type="Node2D" parent="."]
 
 [node name="Bullet" parent="Bullets" instance=ExtResource("3_4bnyn")]

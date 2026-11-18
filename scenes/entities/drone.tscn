@@ -1,9 +1,16 @@
-[gd_scene load_steps=17 format=3 uid="uid://phw7t1ihb8wl"]
+[gd_scene load_steps=20 format=3 uid="uid://phw7t1ihb8wl"]
 
 [ext_resource type="Texture2D" uid="uid://vyr0ks75oxum" path="res://graphics/characters/drone.png" id="1_nr1in"]
 [ext_resource type="Script" path="res://scenes/entities/drone.gd" id="1_yflw0"]
+[ext_resource type="Shader" uid="uid://crahw8yd0hv7l" path="res://scenes/shaders/drone.tres" id="2_8i84x"]
 [ext_resource type="Texture2D" uid="uid://bav7n447bnsa5" path="res://graphics/fire/explosion.png" id="3_08ac7"]
 [ext_resource type="Texture2D" uid="uid://dijla4pisrrw8" path="res://graphics/lights/main.png" id="4_wsc4k"]
+[ext_resource type="AudioStream" uid="uid://dtnqyh7corvdx" path="res://audio/explosion.wav" id="6_22x4v"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m885e"]
+shader = ExtResource("2_8i84x")
+shader_parameter/Color = Color(1, 1, 1, 1)
+shader_parameter/Progress = 1.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ftt3f"]
 atlas = ExtResource("1_nr1in")
@@ -123,6 +130,7 @@ collision_mask = 11
 script = ExtResource("1_yflw0")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_m885e")
 sprite_frames = SubResource("SpriteFrames_fnpm6")
 autoplay = "default"
 frame = 3
@@ -165,6 +173,9 @@ color = Color(1, 0.00784314, 0, 1)
 energy = 0.5
 texture = ExtResource("4_wsc4k")
 texture_scale = 0.3
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_22x4v")
 
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
